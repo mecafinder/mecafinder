@@ -18,12 +18,11 @@ function ResultsContent() {
       brand: "Brembo",
       model: "clio 4",
       compatibility: "Renault Clio 4",
-      delivery: "Livraison estimée : 2 à 4 jours",
+      delivery: "Livraison : 2 à 4 jours",
       description: "Jeu de plaquettes de frein avant, bon rapport qualité/prix.",
       rating: 4.6,
       discount: "-25%",
-      image:
-        "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=1200&auto=format&fit=crop",
+      image: "https://cdn.autodoc.de/uploads/images/catalog/categories/Brake_pads.jpg",
       link: "https://www.amazon.fr/",
     },
     {
@@ -35,12 +34,11 @@ function ResultsContent() {
       brand: "Bosch",
       model: "clio 4",
       compatibility: "Renault Clio 4",
-      delivery: "Livraison estimée : 2 à 5 jours",
-      description: "Disque de frein avant compatible Clio 4, montage simple.",
+      delivery: "Livraison : 2 à 5 jours",
+      description: "Disque de frein avant compatible Clio 4.",
       rating: 4.7,
       discount: "-16%",
-      image:
-        "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?q=80&w=1200&auto=format&fit=crop",
+      image: "https://cdn.autodoc.de/uploads/images/catalog/categories/Brake_disc.jpg",
       link: "https://www.oscaro.com/",
     },
     {
@@ -52,12 +50,11 @@ function ResultsContent() {
       brand: "Monroe",
       model: "clio 4",
       compatibility: "Renault Clio 4",
-      delivery: "Livraison estimée : 3 à 5 jours",
-      description: "Amortisseur avant compatible Clio 4, offre en promotion.",
+      delivery: "Livraison : 3 à 5 jours",
+      description: "Amortisseur compatible Clio 4.",
       rating: 4.4,
       discount: "-18%",
-      image:
-        "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop",
+      image: "https://cdn.autodoc.de/uploads/images/catalog/categories/Shock_absorber.jpg",
       link: "https://www.norauto.fr/",
     },
     {
@@ -69,12 +66,11 @@ function ResultsContent() {
       brand: "Varta",
       model: "208",
       compatibility: "Peugeot 208",
-      delivery: "Livraison estimée : 1 à 3 jours",
-      description: "Batterie fiable, prête à monter, idéale pour usage quotidien.",
+      delivery: "Livraison : 1 à 3 jours",
+      description: "Batterie fiable prête à monter.",
       rating: 4.5,
       discount: "-17%",
-      image:
-        "https://images.unsplash.com/photo-1609521263047-f8f205293f24?q=80&w=1200&auto=format&fit=crop",
+      image: "https://cdn.autodoc.de/uploads/images/catalog/categories/Car_battery.jpg",
       link: "https://www.feuvert.fr/",
     },
     {
@@ -86,35 +82,17 @@ function ResultsContent() {
       brand: "Valeo",
       model: "308",
       compatibility: "Peugeot 308",
-      delivery: "Livraison estimée : 2 à 4 jours",
-      description: "Disque de frein compatible Peugeot 308, bon niveau de finition.",
+      delivery: "Livraison : 2 à 4 jours",
+      description: "Disque compatible Peugeot 308.",
       rating: 4.3,
       discount: "-20%",
-      image:
-        "https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1200&auto=format&fit=crop",
+      image: "https://cdn.autodoc.de/uploads/images/catalog/categories/Brake_disc.jpg",
       link: "https://www.autodoc.fr/",
-    },
-    {
-      name: "Volant moteur Clio 3",
-      price: "179,90 €",
-      oldPrice: "219,90 €",
-      source: "Mister Auto",
-      type: "volant",
-      brand: "LUK",
-      model: "clio 3",
-      compatibility: "Renault Clio 3",
-      delivery: "Livraison estimée : 3 à 6 jours",
-      description: "Volant moteur compatible Clio 3, pièce robuste et fiable.",
-      rating: 4.2,
-      discount: "-18%",
-      image:
-        "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1200&auto=format&fit=crop",
-      link: "https://www.mister-auto.com/",
     },
   ];
 
   const words = query.split(" ").filter(Boolean);
-  const types = ["disque", "plaquette", "amortisseur", "batterie", "volant"];
+  const types = ["disque", "plaquette", "amortisseur", "batterie"];
   const searchedType = types.find((t) => query.includes(t));
 
   const filtered = products.filter((product) => {
@@ -138,60 +116,50 @@ function ResultsContent() {
         Recherche demandée : <strong>{query}</strong>
       </p>
 
-      {filtered.length === 0 ? (
-        <div className="result-card pro-card">
+      {filtered.map((item, index) => (
+        <div key={index} className="result-card pro-card">
+          <div className="product-image-wrap">
+            <img src={item.image} alt={item.name} className="product-image" />
+            <span className="discount-badge">{item.discount}</span>
+          </div>
+
           <div className="pro-card-content">
-            <h2>Aucun résultat trouvé 😢</h2>
-            <p className="result-description">
-              Essaie avec : disque clio, plaquette clio, amortisseur clio,
-              batterie peugeot ou volant clio.
-            </p>
+            <div className="result-top pro-top">
+              <span className="best-badge">
+                {index === 0 ? "🔥 Meilleur prix" : "Résultat"}
+              </span>
+              <span className="source-name">{item.source}</span>
+            </div>
+
+            <h2>{item.name}</h2>
+
+            <div className="rating-row">
+              <span className="stars">⭐⭐⭐⭐☆</span>
+              <span className="rating-value">{item.rating}/5</span>
+            </div>
+
+            <div className="price-row">
+              <span className="new-price">{item.price}</span>
+              <span className="old-price">{item.oldPrice}</span>
+            </div>
+
+            <div className="product-meta">
+              <span className="meta-pill">Marque : {item.brand}</span>
+              <span className="meta-pill">Compatible : {item.compatibility}</span>
+            </div>
+
+            <p className="result-description">{item.description}</p>
+
+            <p className="delivery-text">{item.delivery}</p>
+
+            <p className="stock-alert">⚡ Plus que 3 en stock</p>
+
+            <a href={item.link} target="_blank" rel="noreferrer">
+              <button className="offer-button">Voir l’offre</button>
+            </a>
           </div>
         </div>
-      ) : (
-        filtered.map((item, index) => (
-          <div key={index} className="result-card pro-card">
-            <div className="product-image-wrap">
-              <img src={item.image} alt={item.name} className="product-image" />
-              <span className="discount-badge">{item.discount}</span>
-            </div>
-
-            <div className="pro-card-content">
-              <div className="result-top pro-top">
-                <span className="best-badge">
-                  {index === 0 ? "Meilleur match" : "Résultat"}
-                </span>
-                <span className="source-name">{item.source}</span>
-              </div>
-
-              <h2>{item.name}</h2>
-
-              <div className="rating-row">
-                <span className="stars">⭐⭐⭐⭐☆</span>
-                <span className="rating-value">{item.rating}/5</span>
-              </div>
-
-              <div className="price-row">
-                <span className="new-price">{item.price}</span>
-                <span className="old-price">{item.oldPrice}</span>
-              </div>
-
-              <div className="product-meta">
-                <span className="meta-pill">Marque : {item.brand}</span>
-                <span className="meta-pill">Compatible : {item.compatibility}</span>
-              </div>
-
-              <p className="result-description">{item.description}</p>
-
-              <p className="delivery-text">{item.delivery}</p>
-
-              <a href={item.link} target="_blank" rel="noreferrer">
-                <button className="offer-button">Voir l’offre</button>
-              </a>
-            </div>
-          </div>
-        ))
-      )}
+      ))}
     </main>
   );
 }

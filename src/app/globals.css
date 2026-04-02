@@ -913,3 +913,9 @@ img {
     font-size: 18px;
   }
 }
+.stock-alert {
+  color: #ff5e00;
+  font-weight: 800;
+  margin-bottom: 16px;
+  font-size: 16px;
+}
