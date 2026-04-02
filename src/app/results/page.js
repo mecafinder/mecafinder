@@ -4,33 +4,38 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
-function getProductEmoji(type) {
+function getProductVisual(type) {
   switch (type) {
     case "plaquette":
-      return "🟫";
+      return {
+        icon: "🟫",
+        title: "Plaquettes de frein",
+        gradient: "linear-gradient(135deg, #1b2236 0%, #0f172a 100%)",
+      };
     case "disque":
-      return "⚙️";
+      return {
+        icon: "⚙️",
+        title: "Disque de frein",
+        gradient: "linear-gradient(135deg, #1d2438 0%, #111827 100%)",
+      };
     case "amortisseur":
-      return "🛞";
+      return {
+        icon: "🛞",
+        title: "Amortisseur",
+        gradient: "linear-gradient(135deg, #1b233a 0%, #0b1220 100%)",
+      };
     case "batterie":
-      return "🔋";
+      return {
+        icon: "🔋",
+        title: "Batterie auto",
+        gradient: "linear-gradient(135deg, #1f2b3d 0%, #0f172a 100%)",
+      };
     default:
-      return "🔧";
-  }
-}
-
-function getProductLabel(type) {
-  switch (type) {
-    case "plaquette":
-      return "Plaquettes de frein";
-    case "disque":
-      return "Disque de frein";
-    case "amortisseur":
-      return "Amortisseur";
-    case "batterie":
-      return "Batterie auto";
-    default:
-      return "Pièce auto";
+      return {
+        icon: "🔧",
+        title: "Pièce auto",
+        gradient: "linear-gradient(135deg, #1f2937 0%, #111827 100%)",
+      };
   }
 }
 
@@ -130,74 +135,338 @@ function ResultsContent() {
   });
 
   return (
-    <main className="results-wrap">
-      <Link href="/" className="back-link">
+    <main
+      style={{
+        maxWidth: "1100px",
+        margin: "0 auto",
+        padding: "40px 24px 80px",
+        color: "white",
+      }}
+    >
+      <Link
+        href="/"
+        style={{
+          display: "inline-block",
+          marginBottom: "24px",
+          color: "#ff8a00",
+          fontWeight: 800,
+          textDecoration: "none",
+          fontSize: "18px",
+        }}
+      >
         ← Retour
       </Link>
 
-      <h1>Résultats 🔎</h1>
+      <h1 style={{ fontSize: "64px", margin: "0 0 20px", fontWeight: 900 }}>
+        Résultats 🔎
+      </h1>
 
-      <p className="subtitle">
+      <p
+        style={{
+          fontSize: "20px",
+          color: "#cfd6e4",
+          marginBottom: "28px",
+        }}
+      >
         Recherche demandée : <strong>{query}</strong>
       </p>
 
       {filtered.length === 0 ? (
-        <div className="result-card pro-card">
-          <div className="pro-card-content">
-            <h2>Aucun résultat trouvé 😢</h2>
-            <p className="result-description">
-              Essaie avec : disque clio, plaquette clio, amortisseur clio,
-              batterie peugeot.
-            </p>
-          </div>
+        <div
+          style={{
+            background: "rgba(18, 24, 38, 0.92)",
+            border: "1px solid rgba(73, 97, 135, 0.28)",
+            borderRadius: "24px",
+            padding: "28px",
+          }}
+        >
+          <h2 style={{ fontSize: "30px", marginBottom: "12px" }}>
+            Aucun résultat trouvé 😢
+          </h2>
+          <p style={{ fontSize: "20px", color: "#dbe2ee", lineHeight: 1.6 }}>
+            Essaie avec : disque clio, plaquette clio, amortisseur clio,
+            batterie peugeot.
+          </p>
         </div>
       ) : (
-        filtered.map((item, index) => (
-          <div key={index} className="result-card pro-card">
-            <div className="product-image-wrap fake-product-visual">
-              <span className="discount-badge">{item.discount}</span>
-              <div className="fake-product-icon">{getProductEmoji(item.type)}</div>
-              <div className="fake-product-title">{getProductLabel(item.type)}</div>
-              <div className="fake-product-subtitle">{item.compatibility}</div>
-            </div>
+        filtered.map((item, index) => {
+          const visual = getProductVisual(item.type);
 
-            <div className="pro-card-content">
-              <div className="result-top pro-top">
-                <span className="best-badge">
-                  {index === 0 ? "🔥 Meilleur prix" : "Résultat"}
+          return (
+            <div
+              key={index}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "340px 1fr",
+                gap: "24px",
+                background: "rgba(18, 24, 38, 0.92)",
+                border: "1px solid rgba(73, 97, 135, 0.28)",
+                borderRadius: "24px",
+                padding: "22px",
+                boxShadow: "0 14px 40px rgba(0, 0, 0, 0.28)",
+                marginTop: "24px",
+              }}
+            >
+              <div
+                style={{
+                  position: "relative",
+                  minHeight: "260px",
+                  borderRadius: "20px",
+                  overflow: "hidden",
+                  background: visual.gradient,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "14px",
+                  padding: "24px",
+                  textAlign: "center",
+                }}
+              >
+                <span
+                  style={{
+                    position: "absolute",
+                    top: "14px",
+                    left: "14px",
+                    background: "linear-gradient(135deg, #ff8a00, #ff5e00)",
+                    color: "white",
+                    fontWeight: 900,
+                    fontSize: "16px",
+                    padding: "10px 14px",
+                    borderRadius: "999px",
+                  }}
+                >
+                  {item.discount}
                 </span>
-                <span className="source-name">{item.source}</span>
+
+                <div style={{ fontSize: "84px", lineHeight: 1 }}>
+                  {visual.icon}
+                </div>
+
+                <div
+                  style={{
+                    fontSize: "28px",
+                    fontWeight: 900,
+                    color: "white",
+                  }}
+                >
+                  {visual.title}
+                </div>
+
+                <div
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: 600,
+                    color: "#cfd6e4",
+                  }}
+                >
+                  {item.compatibility}
+                </div>
+
+                <div
+                  style={{
+                    marginTop: "6px",
+                    fontSize: "14px",
+                    color: "#8fa1c2",
+                    fontWeight: 700,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {item.brand}
+                </div>
               </div>
 
-              <h2>{item.name}</h2>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    gap: "12px",
+                    marginBottom: "8px",
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "inline-block",
+                      background: "rgba(255, 138, 0, 0.16)",
+                      color: "#ff9d2f",
+                      fontWeight: 800,
+                      fontSize: "14px",
+                      padding: "8px 14px",
+                      borderRadius: "999px",
+                    }}
+                  >
+                    {index === 0 ? "🔥 Meilleur prix" : "Résultat"}
+                  </span>
 
-              <div className="rating-row">
-                <span className="stars">⭐⭐⭐⭐☆</span>
-                <span className="rating-value">{item.rating}/5</span>
+                  <span
+                    style={{
+                      color: "#c8d2e3",
+                      fontWeight: 700,
+                      fontSize: "18px",
+                    }}
+                  >
+                    {item.source}
+                  </span>
+                </div>
+
+                <h2
+                  style={{
+                    fontSize: "26px",
+                    margin: "12px 0 10px",
+                    fontWeight: 900,
+                  }}
+                >
+                  {item.name}
+                </h2>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    margin: "8px 0 14px",
+                  }}
+                >
+                  <span style={{ fontSize: "18px" }}>⭐⭐⭐⭐☆</span>
+                  <span
+                    style={{
+                      color: "#d5dbea",
+                      fontWeight: 600,
+                      fontSize: "18px",
+                    }}
+                  >
+                    {item.rating}/5
+                  </span>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "14px",
+                    margin: "10px 0 18px",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "38px",
+                      fontWeight: 900,
+                      color: "white",
+                    }}
+                  >
+                    {item.price}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: "18px",
+                      color: "#8f99ad",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    {item.oldPrice}
+                  </span>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "10px",
+                    marginBottom: "16px",
+                  }}
+                >
+                  <span
+                    style={{
+                      background: "rgba(90, 107, 143, 0.2)",
+                      border: "1px solid rgba(90, 107, 143, 0.3)",
+                      color: "#d9e2f2",
+                      padding: "8px 12px",
+                      borderRadius: "999px",
+                      fontSize: "15px",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Marque : {item.brand}
+                  </span>
+
+                  <span
+                    style={{
+                      background: "rgba(90, 107, 143, 0.2)",
+                      border: "1px solid rgba(90, 107, 143, 0.3)",
+                      color: "#d9e2f2",
+                      padding: "8px 12px",
+                      borderRadius: "999px",
+                      fontSize: "15px",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Compatible : {item.compatibility}
+                  </span>
+                </div>
+
+                <p
+                  style={{
+                    fontSize: "20px",
+                    lineHeight: 1.6,
+                    color: "#dbe2ee",
+                    marginBottom: "12px",
+                  }}
+                >
+                  {item.description}
+                </p>
+
+                <p
+                  style={{
+                    color: "#9fe870",
+                    fontWeight: 700,
+                    marginBottom: "12px",
+                    fontSize: "16px",
+                  }}
+                >
+                  {item.delivery}
+                </p>
+
+                <p
+                  style={{
+                    color: "#ff5e00",
+                    fontWeight: 800,
+                    marginBottom: "16px",
+                    fontSize: "16px",
+                  }}
+                >
+                  ⚡ Plus que 3 en stock
+                </p>
+
+                <a href={item.link} target="_blank" rel="noreferrer">
+                  <button
+                    style={{
+                      width: "100%",
+                      border: "none",
+                      background: "linear-gradient(135deg, #ff8a00, #ff6a00)",
+                      color: "white",
+                      fontSize: "20px",
+                      fontWeight: 800,
+                      padding: "18px 22px",
+                      borderRadius: "18px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Voir l’offre
+                  </button>
+                </a>
               </div>
-
-              <div className="price-row">
-                <span className="new-price">{item.price}</span>
-                <span className="old-price">{item.oldPrice}</span>
-              </div>
-
-              <div className="product-meta">
-                <span className="meta-pill">Marque : {item.brand}</span>
-                <span className="meta-pill">Compatible : {item.compatibility}</span>
-              </div>
-
-              <p className="result-description">{item.description}</p>
-
-              <p className="delivery-text">{item.delivery}</p>
-
-              <p className="stock-alert">⚡ Plus que 3 en stock</p>
-
-              <a href={item.link} target="_blank" rel="noreferrer">
-                <button className="offer-button">Voir l’offre</button>
-              </a>
             </div>
-          </div>
-        ))
+          );
+        })
       )}
     </main>
   );
@@ -205,7 +474,7 @@ function ResultsContent() {
 
 export default function ResultsPage() {
   return (
-    <Suspense fallback={<main className="results-wrap">Chargement...</main>}>
+    <Suspense fallback={<main style={{ padding: 40, color: "white" }}>Chargement...</main>}>
       <ResultsContent />
     </Suspense>
   );
