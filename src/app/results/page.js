@@ -17,7 +17,7 @@ function ResultsContent() {
       type: "disque",
       brand: "renault",
       model: "clio 4",
-      description: "Pièce compatible avec Clio 4, disponible rapidement.",
+      description: "Pièce compatible avec Clio 4",
       link: "https://www.oscaro.com/",
     },
     {
@@ -28,7 +28,7 @@ function ResultsContent() {
       type: "plaquette",
       brand: "renault",
       model: "clio 4",
-      description: "Jeu de plaquettes compatible Clio 4, bon rapport qualité/prix.",
+      description: "Jeu de plaquettes pour Clio 4",
       link: "https://www.amazon.fr/",
     },
     {
@@ -39,7 +39,7 @@ function ResultsContent() {
       type: "amortisseur",
       brand: "renault",
       model: "clio 4",
-      description: "Amortisseur avant compatible Renault Clio 4.",
+      description: "Amortisseur Clio 4",
       link: "https://www.norauto.fr/",
     },
     {
@@ -50,57 +50,25 @@ function ResultsContent() {
       type: "batterie",
       brand: "peugeot",
       model: "208",
-      description: "Batterie auto fiable pour Peugeot 208, prête à monter.",
+      description: "Batterie Peugeot",
       link: "https://www.feuvert.fr/",
-    },
-    {
-      name: "Disque de frein Peugeot 308",
-      price: "59,90 €",
-      oldPrice: "74,90 €",
-      source: "Autodoc",
-      type: "disque",
-      brand: "peugeot",
-      model: "308",
-      description: "Disque de frein compatible Peugeot 308.",
-      link: "https://www.autodoc.fr/",
-    },
-    {
-      name: "Volant moteur Clio 3",
-      price: "179,90 €",
-      oldPrice: "219,90 €",
-      source: "Mister Auto",
-      type: "volant",
-      brand: "renault",
-      model: "clio 3",
-      description: "Volant moteur compatible Renault Clio 3.",
-      link: "https://www.mister-auto.com/",
     },
   ];
 
   const words = query.split(" ").filter(Boolean);
 
-  const scoredResults = products
-    .map((product) => {
-      let score = 0;
+  // détecter type recherché
+  const types = ["disque", "plaquette", "amortisseur", "batterie", "volant"];
+  const searchedType = types.find((t) => query.includes(t));
 
-      const name = product.name.toLowerCase();
-      const type = product.type.toLowerCase();
-      const brand = product.brand.toLowerCase();
-      const model = product.model.toLowerCase();
-      const description = product.description.toLowerCase();
+  const filtered = products.filter((product) => {
+    // si type trouvé → filtrer strictement
+    if (searchedType && product.type !== searchedType) return false;
 
-      words.forEach((word) => {
-        if (type.includes(word)) score += 5;
-        if (model.includes(word)) score += 4;
-        if (brand.includes(word)) score += 3;
-        if (name.includes(word)) score += 2;
-        if (description.includes(word)) score += 1;
-      });
+    const text = `${product.name} ${product.brand} ${product.model}`.toLowerCase();
 
-      return { ...product, score };
-    })
-    .filter((product) => product.score >= 6)
-    .sort((a, b) => b.score - a.score);
+    return words.every((word) => text.includes(word));
+  });
 
   return (
     <main className="results-wrap">
@@ -114,16 +82,12 @@ function ResultsContent() {
         Recherche demandée : <strong>{query}</strong>
       </p>
 
-      {scoredResults.length === 0 ? (
+      {filtered.length === 0 ? (
         <div className="result-card">
           <h2>Aucun résultat trouvé 😢</h2>
-          <p className="result-description">
-            Essaie avec des mots comme disque, plaquette, amortisseur, batterie
-            ou volant.
-          </p>
         </div>
       ) : (
-        scoredResults.map((item, index) => (
+        filtered.map((item, index) => (
           <div key={index} className="result-card">
             <div className="result-top">
               <span className="best-badge">
