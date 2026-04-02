@@ -50,7 +50,7 @@ function ResultsContent() {
       type: "batterie",
       brand: "peugeot",
       model: "208",
-      description: "Batterie fiable pour Peugeot 208, prête à monter.",
+      description: "Batterie auto fiable pour Peugeot 208, prête à monter.",
       link: "https://www.feuvert.fr/",
     },
     {
@@ -99,7 +99,7 @@ function ResultsContent() {
 
       return { ...product, score };
     })
-    .filter((product) => product.score > 0)
+    .filter((product) => product.score >= 6)
     .sort((a, b) => b.score - a.score);
 
   return (
