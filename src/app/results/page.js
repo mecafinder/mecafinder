@@ -4,6 +4,36 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
+function getProductEmoji(type) {
+  switch (type) {
+    case "plaquette":
+      return "🟫";
+    case "disque":
+      return "⚙️";
+    case "amortisseur":
+      return "🛞";
+    case "batterie":
+      return "🔋";
+    default:
+      return "🔧";
+  }
+}
+
+function getProductLabel(type) {
+  switch (type) {
+    case "plaquette":
+      return "Plaquettes de frein";
+    case "disque":
+      return "Disque de frein";
+    case "amortisseur":
+      return "Amortisseur";
+    case "batterie":
+      return "Batterie auto";
+    default:
+      return "Pièce auto";
+  }
+}
+
 function ResultsContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query")?.toLowerCase().trim() || "";
@@ -22,7 +52,6 @@ function ResultsContent() {
       description: "Jeu de plaquettes de frein avant, bon rapport qualité/prix.",
       rating: 4.6,
       discount: "-25%",
-      image: "https://i.imgur.com/8Km9tLL.jpg",
       link: "https://www.amazon.fr/",
     },
     {
@@ -38,7 +67,6 @@ function ResultsContent() {
       description: "Disque de frein avant compatible Clio 4.",
       rating: 4.7,
       discount: "-16%",
-      image: "https://i.imgur.com/2nCt3Sb.jpg",
       link: "https://www.oscaro.com/",
     },
     {
@@ -54,7 +82,6 @@ function ResultsContent() {
       description: "Amortisseur compatible Clio 4.",
       rating: 4.4,
       discount: "-18%",
-      image: "https://i.imgur.com/Z7AzH2c.jpg",
       link: "https://www.norauto.fr/",
     },
     {
@@ -70,7 +97,6 @@ function ResultsContent() {
       description: "Batterie fiable prête à monter.",
       rating: 4.5,
       discount: "-17%",
-      image: "https://i.imgur.com/1bX5QH6.jpg",
       link: "https://www.feuvert.fr/",
     },
     {
@@ -86,7 +112,6 @@ function ResultsContent() {
       description: "Disque compatible Peugeot 308.",
       rating: 4.3,
       discount: "-20%",
-      image: "https://i.imgur.com/2nCt3Sb.jpg",
       link: "https://www.autodoc.fr/",
     },
   ];
@@ -129,13 +154,11 @@ function ResultsContent() {
       ) : (
         filtered.map((item, index) => (
           <div key={index} className="result-card pro-card">
-            <div className="product-image-wrap">
-              <img
-                src={item.image}
-                alt={item.name}
-                className="product-image"
-              />
+            <div className="product-image-wrap fake-product-visual">
               <span className="discount-badge">{item.discount}</span>
+              <div className="fake-product-icon">{getProductEmoji(item.type)}</div>
+              <div className="fake-product-title">{getProductLabel(item.type)}</div>
+              <div className="fake-product-subtitle">{item.compatibility}</div>
             </div>
 
             <div className="pro-card-content">

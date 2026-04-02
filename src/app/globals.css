@@ -1134,4 +1134,34 @@ img {
   .result-description {
     font-size: 18px;
   }
+}.fake-product-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background:
+    radial-gradient(circle at top left, rgba(255, 138, 0, 0.22), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(67, 97, 238, 0.22), transparent 35%),
+    linear-gradient(135deg, #111827, #0f1b3d);
+}
+
+.fake-product-icon {
+  font-size: 82px;
+  line-height: 1;
+}
+
+.fake-product-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: white;
+  text-align: center;
+}
+
+.fake-product-subtitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #cfd6e4;
+  text-align: center;
+  padding: 0 16px;
 }
