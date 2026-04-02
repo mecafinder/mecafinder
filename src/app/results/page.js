@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
@@ -16,12 +15,15 @@ function ResultsContent() {
       oldPrice: "39,90 €",
       source: "Amazon",
       type: "plaquette",
-      brand: "renault",
+      brand: "Brembo",
       model: "clio 4",
-      description: "Jeu de plaquettes pour Clio 4, bon rapport qualité/prix.",
+      compatibility: "Renault Clio 4",
+      delivery: "Livraison estimée : 2 à 4 jours",
+      description: "Jeu de plaquettes de frein avant, bon rapport qualité/prix.",
       rating: 4.6,
       discount: "-25%",
-      image: "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?q=80&w=1200&auto=format&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=1200&auto=format&fit=crop",
       link: "https://www.amazon.fr/",
     },
     {
@@ -30,12 +32,15 @@ function ResultsContent() {
       oldPrice: "59,90 €",
       source: "Oscaro",
       type: "disque",
-      brand: "renault",
+      brand: "Bosch",
       model: "clio 4",
-      description: "Pièce compatible avec Clio 4, disponible rapidement.",
+      compatibility: "Renault Clio 4",
+      delivery: "Livraison estimée : 2 à 5 jours",
+      description: "Disque de frein avant compatible Clio 4, montage simple.",
       rating: 4.7,
       discount: "-16%",
-      image: "https://images.unsplash.com/photo-1613214150384-df8d2eb2c2f6?q=80&w=1200&auto=format&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?q=80&w=1200&auto=format&fit=crop",
       link: "https://www.oscaro.com/",
     },
     {
@@ -44,12 +49,15 @@ function ResultsContent() {
       oldPrice: "109,90 €",
       source: "Norauto",
       type: "amortisseur",
-      brand: "renault",
+      brand: "Monroe",
       model: "clio 4",
-      description: "Amortisseur compatible Clio 4, offre en promotion.",
+      compatibility: "Renault Clio 4",
+      delivery: "Livraison estimée : 3 à 5 jours",
+      description: "Amortisseur avant compatible Clio 4, offre en promotion.",
       rating: 4.4,
       discount: "-18%",
-      image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=1200&auto=format&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop",
       link: "https://www.norauto.fr/",
     },
     {
@@ -58,12 +66,15 @@ function ResultsContent() {
       oldPrice: "95,90 €",
       source: "Feu Vert",
       type: "batterie",
-      brand: "peugeot",
+      brand: "Varta",
       model: "208",
-      description: "Batterie auto fiable pour Peugeot, prête à monter.",
+      compatibility: "Peugeot 208",
+      delivery: "Livraison estimée : 1 à 3 jours",
+      description: "Batterie fiable, prête à monter, idéale pour usage quotidien.",
       rating: 4.5,
       discount: "-17%",
-      image: "https://images.unsplash.com/photo-1609521263047-f8f205293f24?q=80&w=1200&auto=format&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1609521263047-f8f205293f24?q=80&w=1200&auto=format&fit=crop",
       link: "https://www.feuvert.fr/",
     },
     {
@@ -72,12 +83,15 @@ function ResultsContent() {
       oldPrice: "74,90 €",
       source: "Autodoc",
       type: "disque",
-      brand: "peugeot",
+      brand: "Valeo",
       model: "308",
-      description: "Disque de frein compatible Peugeot 308.",
+      compatibility: "Peugeot 308",
+      delivery: "Livraison estimée : 2 à 4 jours",
+      description: "Disque de frein compatible Peugeot 308, bon niveau de finition.",
       rating: 4.3,
       discount: "-20%",
-      image: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1200&auto=format&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1200&auto=format&fit=crop",
       link: "https://www.autodoc.fr/",
     },
     {
@@ -86,12 +100,15 @@ function ResultsContent() {
       oldPrice: "219,90 €",
       source: "Mister Auto",
       type: "volant",
-      brand: "renault",
+      brand: "LUK",
       model: "clio 3",
-      description: "Volant moteur compatible Renault Clio 3.",
+      compatibility: "Renault Clio 3",
+      delivery: "Livraison estimée : 3 à 6 jours",
+      description: "Volant moteur compatible Clio 3, pièce robuste et fiable.",
       rating: 4.2,
       discount: "-18%",
-      image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1200&auto=format&fit=crop",
       link: "https://www.mister-auto.com/",
     },
   ];
@@ -103,7 +120,9 @@ function ResultsContent() {
   const filtered = products.filter((product) => {
     if (searchedType && product.type !== searchedType) return false;
 
-    const text = `${product.name} ${product.brand} ${product.model}`.toLowerCase();
+    const text =
+      `${product.name} ${product.brand} ${product.model} ${product.compatibility}`.toLowerCase();
+
     return words.every((word) => text.includes(word));
   });
 
@@ -133,11 +152,7 @@ function ResultsContent() {
         filtered.map((item, index) => (
           <div key={index} className="result-card pro-card">
             <div className="product-image-wrap">
-              <img
-                src={item.image}
-                alt={item.name}
-                className="product-image"
-              />
+              <img src={item.image} alt={item.name} className="product-image" />
               <span className="discount-badge">{item.discount}</span>
             </div>
 
@@ -161,7 +176,14 @@ function ResultsContent() {
                 <span className="old-price">{item.oldPrice}</span>
               </div>
 
+              <div className="product-meta">
+                <span className="meta-pill">Marque : {item.brand}</span>
+                <span className="meta-pill">Compatible : {item.compatibility}</span>
+              </div>
+
               <p className="result-description">{item.description}</p>
+
+              <p className="delivery-text">{item.delivery}</p>
 
               <a href={item.link} target="_blank" rel="noreferrer">
                 <button className="offer-button">Voir l’offre</button>
