@@ -15,16 +15,18 @@ function ResultsContent() {
       oldPrice: "59,90 €",
       source: "Oscaro",
       type: "disque",
-      description: "Pièce compatible avec recherche demandée. Offre disponible chez Oscaro.",
+      brand: "Renault",
+      description: "Pièce compatible avec Clio 4, disponible rapidement.",
       link: "https://www.oscaro.com/",
     },
     {
-      name: "Plaquette Clio 4",
+      name: "Plaquettes de frein Clio 4",
       price: "29,90 €",
       oldPrice: "39,90 €",
       source: "Amazon",
       type: "plaquette",
-      description: "Jeu de plaquettes pour Clio 4, bon rapport qualité/prix.",
+      brand: "Renault",
+      description: "Jeu de plaquettes compatible Clio 4, bon rapport qualité/prix.",
       link: "https://www.amazon.fr/",
     },
     {
@@ -33,7 +35,8 @@ function ResultsContent() {
       oldPrice: "109,90 €",
       source: "Norauto",
       type: "amortisseur",
-      description: "Amortisseur compatible Clio 4, offre en promotion.",
+      brand: "Renault",
+      description: "Amortisseur avant compatible Renault Clio 4.",
       link: "https://www.norauto.fr/",
     },
     {
@@ -42,7 +45,8 @@ function ResultsContent() {
       oldPrice: "95,90 €",
       source: "Feu Vert",
       type: "batterie",
-      description: "Batterie auto fiable pour Peugeot, prête à monter.",
+      brand: "Peugeot",
+      description: "Batterie fiable pour Peugeot 208, prête à monter.",
       link: "https://www.feuvert.fr/",
     },
     {
@@ -51,21 +55,35 @@ function ResultsContent() {
       oldPrice: "74,90 €",
       source: "Autodoc",
       type: "disque",
+      brand: "Peugeot",
       description: "Disque de frein compatible Peugeot 308.",
       link: "https://www.autodoc.fr/",
+    },
+    {
+      name: "Volant moteur Clio 3",
+      price: "179,90 €",
+      oldPrice: "219,90 €",
+      source: "Mister Auto",
+      type: "volant",
+      brand: "Renault",
+      description: "Volant moteur compatible Renault Clio 3.",
+      link: "https://www.mister-auto.com/",
     },
   ];
 
   const words = query.split(" ").filter(Boolean);
 
-  const filtered = products.filter((product) =>
-    words.some(
-      (word) =>
-        product.type.toLowerCase().includes(word) ||
-        product.name.toLowerCase().includes(word) ||
-        product.description.toLowerCase().includes(word)
-    )
-  );
+  const filtered = products.filter((product) => {
+    const fullText = `
+      ${product.name}
+      ${product.type}
+      ${product.brand}
+      ${product.description}
+      ${product.source}
+    `.toLowerCase();
+
+    return words.every((word) => fullText.includes(word));
+  });
 
   return (
     <main className="results-wrap">
@@ -80,7 +98,13 @@ function ResultsContent() {
       </p>
 
       {filtered.length === 0 ? (
-        <p>Aucun résultat trouvé 😢</p>
+        <div className="result-card">
+          <h2>Aucun résultat trouvé 😢</h2>
+          <p className="result-description">
+            Essaie avec des mots comme disque, plaquette, amortisseur, batterie
+            ou volant.
+          </p>
+        </div>
       ) : (
         filtered.map((item, index) => (
           <div key={index} className="result-card">
