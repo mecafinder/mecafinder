@@ -22,7 +22,7 @@ function ResultsContent() {
       description: "Jeu de plaquettes de frein avant, bon rapport qualité/prix.",
       rating: 4.6,
       discount: "-25%",
-      image: "https://cdn.autodoc.de/uploads/images/catalog/categories/Brake_pads.jpg",
+      image: "https://i.imgur.com/8Km9tLL.jpg",
       link: "https://www.amazon.fr/",
     },
     {
@@ -38,7 +38,7 @@ function ResultsContent() {
       description: "Disque de frein avant compatible Clio 4.",
       rating: 4.7,
       discount: "-16%",
-      image: "https://cdn.autodoc.de/uploads/images/catalog/categories/Brake_disc.jpg",
+      image: "https://i.imgur.com/2nCt3Sb.jpg",
       link: "https://www.oscaro.com/",
     },
     {
@@ -54,7 +54,7 @@ function ResultsContent() {
       description: "Amortisseur compatible Clio 4.",
       rating: 4.4,
       discount: "-18%",
-      image: "https://cdn.autodoc.de/uploads/images/catalog/categories/Shock_absorber.jpg",
+      image: "https://i.imgur.com/Z7AzH2c.jpg",
       link: "https://www.norauto.fr/",
     },
     {
@@ -70,7 +70,7 @@ function ResultsContent() {
       description: "Batterie fiable prête à monter.",
       rating: 4.5,
       discount: "-17%",
-      image: "https://cdn.autodoc.de/uploads/images/catalog/categories/Car_battery.jpg",
+      image: "https://i.imgur.com/1bX5QH6.jpg",
       link: "https://www.feuvert.fr/",
     },
     {
@@ -86,7 +86,7 @@ function ResultsContent() {
       description: "Disque compatible Peugeot 308.",
       rating: 4.3,
       discount: "-20%",
-      image: "https://cdn.autodoc.de/uploads/images/catalog/categories/Brake_disc.jpg",
+      image: "https://i.imgur.com/2nCt3Sb.jpg",
       link: "https://www.autodoc.fr/",
     },
   ];
@@ -116,50 +116,66 @@ function ResultsContent() {
         Recherche demandée : <strong>{query}</strong>
       </p>
 
-      {filtered.map((item, index) => (
-        <div key={index} className="result-card pro-card">
-          <div className="product-image-wrap">
-            <img src={item.image} alt={item.name} className="product-image" />
-            <span className="discount-badge">{item.discount}</span>
-          </div>
-
+      {filtered.length === 0 ? (
+        <div className="result-card pro-card">
           <div className="pro-card-content">
-            <div className="result-top pro-top">
-              <span className="best-badge">
-                {index === 0 ? "🔥 Meilleur prix" : "Résultat"}
-              </span>
-              <span className="source-name">{item.source}</span>
-            </div>
-
-            <h2>{item.name}</h2>
-
-            <div className="rating-row">
-              <span className="stars">⭐⭐⭐⭐☆</span>
-              <span className="rating-value">{item.rating}/5</span>
-            </div>
-
-            <div className="price-row">
-              <span className="new-price">{item.price}</span>
-              <span className="old-price">{item.oldPrice}</span>
-            </div>
-
-            <div className="product-meta">
-              <span className="meta-pill">Marque : {item.brand}</span>
-              <span className="meta-pill">Compatible : {item.compatibility}</span>
-            </div>
-
-            <p className="result-description">{item.description}</p>
-
-            <p className="delivery-text">{item.delivery}</p>
-
-            <p className="stock-alert">⚡ Plus que 3 en stock</p>
-
-            <a href={item.link} target="_blank" rel="noreferrer">
-              <button className="offer-button">Voir l’offre</button>
-            </a>
+            <h2>Aucun résultat trouvé 😢</h2>
+            <p className="result-description">
+              Essaie avec : disque clio, plaquette clio, amortisseur clio,
+              batterie peugeot.
+            </p>
           </div>
         </div>
-      ))}
+      ) : (
+        filtered.map((item, index) => (
+          <div key={index} className="result-card pro-card">
+            <div className="product-image-wrap">
+              <img
+                src={item.image}
+                alt={item.name}
+                className="product-image"
+              />
+              <span className="discount-badge">{item.discount}</span>
+            </div>
+
+            <div className="pro-card-content">
+              <div className="result-top pro-top">
+                <span className="best-badge">
+                  {index === 0 ? "🔥 Meilleur prix" : "Résultat"}
+                </span>
+                <span className="source-name">{item.source}</span>
+              </div>
+
+              <h2>{item.name}</h2>
+
+              <div className="rating-row">
+                <span className="stars">⭐⭐⭐⭐☆</span>
+                <span className="rating-value">{item.rating}/5</span>
+              </div>
+
+              <div className="price-row">
+                <span className="new-price">{item.price}</span>
+                <span className="old-price">{item.oldPrice}</span>
+              </div>
+
+              <div className="product-meta">
+                <span className="meta-pill">Marque : {item.brand}</span>
+                <span className="meta-pill">Compatible : {item.compatibility}</span>
+              </div>
+
+              <p className="result-description">{item.description}</p>
+
+              <p className="delivery-text">{item.delivery}</p>
+
+              <p className="stock-alert">⚡ Plus que 3 en stock</p>
+
+              <a href={item.link} target="_blank" rel="noreferrer">
+                <button className="offer-button">Voir l’offre</button>
+              </a>
+            </div>
+          </div>
+        ))
+      )}
     </main>
   );
 }
