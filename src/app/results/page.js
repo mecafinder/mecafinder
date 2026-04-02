@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 
 function ResultsContent() {
   const searchParams = useSearchParams();
-  const query = searchParams.get("query")?.toLowerCase() || "";
+  const query = searchParams.get("query")?.toLowerCase().trim() || "";
 
   const products = [
     {
@@ -15,7 +15,8 @@ function ResultsContent() {
       oldPrice: "59,90 €",
       source: "Oscaro",
       type: "disque",
-      brand: "Renault",
+      brand: "renault",
+      model: "clio 4",
       description: "Pièce compatible avec Clio 4, disponible rapidement.",
       link: "https://www.oscaro.com/",
     },
@@ -25,7 +26,8 @@ function ResultsContent() {
       oldPrice: "39,90 €",
       source: "Amazon",
       type: "plaquette",
-      brand: "Renault",
+      brand: "renault",
+      model: "clio 4",
       description: "Jeu de plaquettes compatible Clio 4, bon rapport qualité/prix.",
       link: "https://www.amazon.fr/",
     },
@@ -35,7 +37,8 @@ function ResultsContent() {
       oldPrice: "109,90 €",
       source: "Norauto",
       type: "amortisseur",
-      brand: "Renault",
+      brand: "renault",
+      model: "clio 4",
       description: "Amortisseur avant compatible Renault Clio 4.",
       link: "https://www.norauto.fr/",
     },
@@ -45,7 +48,8 @@ function ResultsContent() {
       oldPrice: "95,90 €",
       source: "Feu Vert",
       type: "batterie",
-      brand: "Peugeot",
+      brand: "peugeot",
+      model: "208",
       description: "Batterie fiable pour Peugeot 208, prête à monter.",
       link: "https://www.feuvert.fr/",
     },
@@ -55,7 +59,8 @@ function ResultsContent() {
       oldPrice: "74,90 €",
       source: "Autodoc",
       type: "disque",
-      brand: "Peugeot",
+      brand: "peugeot",
+      model: "308",
       description: "Disque de frein compatible Peugeot 308.",
       link: "https://www.autodoc.fr/",
     },
@@ -65,7 +70,8 @@ function ResultsContent() {
       oldPrice: "219,90 €",
       source: "Mister Auto",
       type: "volant",
-      brand: "Renault",
+      brand: "renault",
+      model: "clio 3",
       description: "Volant moteur compatible Renault Clio 3.",
       link: "https://www.mister-auto.com/",
     },
@@ -73,17 +79,28 @@ function ResultsContent() {
 
   const words = query.split(" ").filter(Boolean);
 
-  const filtered = products.filter((product) => {
-    const fullText = `
-      ${product.name}
-      ${product.type}
-      ${product.brand}
-      ${product.description}
-      ${product.source}
-    `.toLowerCase();
+  const scoredResults = products
+    .map((product) => {
+      let score = 0;
 
-    return words.every((word) => fullText.includes(word));
-  });
+      const name = product.name.toLowerCase();
+      const type = product.type.toLowerCase();
+      const brand = product.brand.toLowerCase();
+      const model = product.model.toLowerCase();
+      const description = product.description.toLowerCase();
+
+      words.forEach((word) => {
+        if (type.includes(word)) score += 5;
+        if (model.includes(word)) score += 4;
+        if (brand.includes(word)) score += 3;
+        if (name.includes(word)) score += 2;
+        if (description.includes(word)) score += 1;
+      });
+
+      return { ...product, score };
+    })
+    .filter((product) => product.score > 0)
+    .sort((a, b) => b.score - a.score);
 
   return (
     <main className="results-wrap">
@@ -97,7 +114,7 @@ function ResultsContent() {
         Recherche demandée : <strong>{query}</strong>
       </p>
 
-      {filtered.length === 0 ? (
+      {scoredResults.length === 0 ? (
         <div className="result-card">
           <h2>Aucun résultat trouvé 😢</h2>
           <p className="result-description">
@@ -106,10 +123,12 @@ function ResultsContent() {
           </p>
         </div>
       ) : (
-        filtered.map((item, index) => (
+        scoredResults.map((item, index) => (
           <div key={index} className="result-card">
             <div className="result-top">
-              <span className="best-badge">Meilleur prix</span>
+              <span className="best-badge">
+                {index === 0 ? "Meilleur match" : "Résultat"}
+              </span>
               <span className="source-name">{item.source}</span>
             </div>
 
